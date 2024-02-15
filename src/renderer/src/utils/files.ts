@@ -1,7 +1,7 @@
 // Handle file system operations using electron api
-import { ipcRenderer } from 'electron'
 import { Stats } from 'fs';
 
+const ipcRenderer = window.electron.ipcRenderer
 // Function to read a file's content
 export const readFileContent = (filePath: string): Promise<string> => {
   return ipcRenderer.invoke('read-file', filePath);

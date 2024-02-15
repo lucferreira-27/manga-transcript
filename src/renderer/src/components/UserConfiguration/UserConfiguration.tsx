@@ -6,6 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { listDirectoryContents } from '../../utils/files';
 
 const UserConfiguration: React.FC = () => {
     const { config, setConfig } = useConfig();
@@ -18,7 +19,10 @@ const UserConfiguration: React.FC = () => {
   
     const handleSubmit = () => {
       console.log('Image Path:', imagePath);
+      
       setConfig({ ...config, paths: { ...config.paths, imagePath } });
+    
+
     };
   
     const toggleAppBar = () => {
@@ -45,8 +49,7 @@ const UserConfiguration: React.FC = () => {
                 value={imagePath}
                 onChange={handleInputChange}
                 size="small"
-                
-                sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+                sx={{ backgroundColor: 'white', borderRadius: '5px', width: '80%' }}
               />
               <Button variant="contained" onClick={handleSubmit} sx={{ color: 'black' }}>
                   Confirm

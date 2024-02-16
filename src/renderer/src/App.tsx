@@ -1,5 +1,5 @@
 import BasePage from './components/BasePage/BasePage';
-import ImageRender from './components/ImageRender/ImageRender';
+import ImageRender from './components/Pages/ImageRender/ImageRender';
 import UserConfiguration from './components/UserConfiguration/UserConfiguration';
 import { ConfigProvider } from './context/ConfigContext'; // Adjusted import
 import "./index.css";

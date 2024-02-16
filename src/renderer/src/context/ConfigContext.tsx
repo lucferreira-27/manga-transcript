@@ -1,14 +1,22 @@
 import React, { createContext, useContext, useState } from 'react';
 
-const defaultConfig = {
+type Config = {
+  paths: {
+    imagePath: string;
+    annotationPath: string;
+  };
+};
+
+const defaultConfig: Config = {
   paths: {
     imagePath: "",
+    annotationPath: "",
   },
 };
 
 const ConfigContext = createContext({
-  config: defaultConfig,
-  setConfig: (config: typeof defaultConfig) => {},
+  config: defaultConfig as Config,
+  setConfig: (config: Config) => {},
 });
 
 export const ConfigProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {

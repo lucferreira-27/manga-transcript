@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import fs from 'fs'
+import path from 'path';
 import { promisify } from 'util'
 
 // Promisify fs methods
@@ -20,7 +21,8 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      webSecurity: false
     }
   })
 
@@ -74,7 +76,8 @@ app.whenReady().then(() => {
   ipcMain.handle('list-directory', async (event, directoryPath) => {
     try {
       const contents = await readdirAsync(directoryPath)
-      return contents
+      const fullPaths = contents.map((content) => path.join(directoryPath, content));
+      return fullPaths;
     } catch (error) {
       console.error('Failed to list directory:', error)
       throw error

@@ -9,8 +9,8 @@ type Config = {
 
 const defaultConfig: Config = {
   paths: {
-    imagePath: "",
-    annotationPath: "",
+    imagePath: "E:/Torrent/One Piece v001-100 (2003-2022) (Digital HD) (AnHeroGold-Empire, aKraa, & jxc3764)/Volumes/One Piece v001 (2003) (Digital HD) (AnHeroGold-Empire)",
+    annotationPath: "E:/One Piece Volumes Predictions",
   },
 };
 

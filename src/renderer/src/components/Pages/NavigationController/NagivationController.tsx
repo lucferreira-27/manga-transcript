@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, ButtonGroup } from '@mui/material';
+import { Button, ButtonGroup, Typography,Box } from '@mui/material';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Page } from '../Pages';
@@ -48,10 +48,14 @@ const NavigationController: React.FC<NavigationControllerProps> = ({ currentPage
         };
     }, [currentPage, pages]);
     return <>
-        <ButtonGroup variant="contained" aria-label="navigation buttons">
-            <Button onClick={() => handlePrevious()}><NavigateBeforeIcon /></Button>
-            <Button onClick={() => handleNext()}><NavigateNextIcon /></Button>
-        </ButtonGroup>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <ButtonGroup variant="contained" aria-label="navigation buttons">
+                <Button onClick={() => handlePrevious()}><NavigateBeforeIcon /></Button>
+                <Button onClick={() => handleNext()}><NavigateNextIcon /></Button>
+            </ButtonGroup>
+            <Typography variant="body1" sx={{ textAlign: 'center' }}>{currentPage?.filename}</Typography>
+        </Box>
+
     </>;
 };
 

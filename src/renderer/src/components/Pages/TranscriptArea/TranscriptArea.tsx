@@ -17,7 +17,6 @@ export const TranscriptArea: React.FC<TranscriptAreaProps> = ({ pages, currentPa
                         <NavigationController pages={pages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                     </Paper>
                 </Box>
-
         </Container>
 
 

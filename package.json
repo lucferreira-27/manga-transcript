@@ -27,7 +27,9 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
+    "canvas": "^2.11.2",
     "konva": "^9.3.3",
+    "konva-node": "^0.11.2",
     "react-konva": "^18.2.10",
     "use-image": "^1.1.1"
   },

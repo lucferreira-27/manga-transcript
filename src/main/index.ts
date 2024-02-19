@@ -62,9 +62,13 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'))
 
   // IPC handler for reading a file
-  ipcMain.handle('read-file', async (event, filePath) => {
+  ipcMain.handle('read-file', async (event, filePath, json: boolean = false) => {
     try {
       const content = await readFileAsync(filePath, { encoding: 'utf8' })
+      if (json) {
+        console.log("json",content)
+        return JSON.parse(content);
+      }
       return content
     } catch (error) {
       console.error('Failed to read file:', error)

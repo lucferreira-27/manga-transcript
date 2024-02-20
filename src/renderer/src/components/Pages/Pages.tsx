@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ImageRender from './ImageRender/ImageRender';
 import { useConfig } from '../../context/ConfigContext';
-import { listDirectoryContents,readFileContent } from '../../utils/files';
+import { listDirectoryContents, readFileContent } from '../../utils/files';
 import { Container } from '@mui/material';
 import { TranscriptArea } from './TranscriptArea/TranscriptArea';
+import { GalleryViewer } from './GalleryViewer/GalleryViewer';
 
 
 
@@ -17,7 +18,7 @@ export type Annotation = {
     panels: [
         {
             bbox: []
-        },  
+        },
     ],
     texts: [
         {
@@ -28,7 +29,7 @@ export type Annotation = {
     gemini: [
         {
             gemini_block: boolean;
-            texts: [string];
+            text: [string];
             xyxy: [number];
         }
     ]
@@ -51,21 +52,22 @@ export const Pages: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<Page | null>();
 
     const getAllFileAnnoations = async () => {
-        const files =  await listDirectoryContents(config.paths.annotationPath);
-        const annotations: Annotation[] = [] 
+        const files = await listDirectoryContents(config.paths.annotationPath);
+        const annotations: Annotation[] = []
         for (const file of files.slice(0, 1)) {
             const json = await readFileContent(file, true) as Prediction;
             for (const current_json of json.pages) {
-                    const annotation = {
-                        panels: current_json.panels ,
-                        texts: current_json.texts ,
-                        gemini: current_json.gemini
-                    }
-                    annotations.push(annotation)
+                const annotation = {
+                    panels: current_json.panels,
+                    texts: current_json.texts,
+                    gemini: current_json.gemini
+                }
+                annotations.push(annotation)
             }
         }
         setAnnotations(annotations)
     }
+
 
     const getAllFileImages = async () => {
         const files = await listDirectoryContents(config.paths.imagePath);
@@ -74,7 +76,7 @@ export const Pages: React.FC = () => {
         setFolderImages(images);
     }
     const createPage = (file: string, index: number, annotation: Annotation) => {
-        
+
 
         return {
             url: `file://${file}`,
@@ -85,15 +87,15 @@ export const Pages: React.FC = () => {
         }
     }
 
-    useEffect(() =>{
-        if(pages.length > 0)
+    useEffect(() => {
+        if (pages.length > 0)
             setCurrentPage(pages[0] || null)
-    },[pages])
+    }, [pages])
     useEffect(() => {
         if (folder_images.length === 0 || annotations.length === 0) {
             return;
         }
-        if (filterGeminiBlock){
+        if (filterGeminiBlock) {
             const filterPages = pages.filter(page => page.annotation.gemini && page.annotation.gemini.some(gemini => gemini.gemini_block));
             setPages(filterPages);
             return
@@ -107,14 +109,14 @@ export const Pages: React.FC = () => {
         }
         setPages(new_pages)
 
-    }, [annotations, filterGeminiBlock]); 
+    }, [annotations, filterGeminiBlock]);
 
 
     useEffect(() => {
         setCurrentPage(pages[0] || null)
     }, [pages])
 
-    useEffect(() =>{
+    useEffect(() => {
 
         const fetchAll = async () => {
             await getAllFileImages();
@@ -126,13 +128,19 @@ export const Pages: React.FC = () => {
 
 
     return (
-        <Container sx={{display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
-            <ImageRender currentPage={currentPage || null} />
-            <TranscriptArea pages={pages} 
-            currentPage={currentPage ?? null} 
-            setCurrentPage={setCurrentPage} 
-            filterGeminiBlock={filterGeminiBlock} 
-            setFilterGeminiBlock={setFilterGeminiBlock} />        
+        <Container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
+            <GalleryViewer pages={pages} />
+            {1 > 2 &&
+                <>
+                    <ImageRender currentPage={currentPage || null} />
+                    <TranscriptArea pages={pages}
+                        currentPage={currentPage ?? null}
+                        setCurrentPage={setCurrentPage}
+                        filterGeminiBlock={filterGeminiBlock}
+                        setFilterGeminiBlock={setFilterGeminiBlock} />
+                </>
+            }
+
         </Container>
     );
 };

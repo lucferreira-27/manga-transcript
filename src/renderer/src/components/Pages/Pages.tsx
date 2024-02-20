@@ -28,8 +28,8 @@ export type Annotation = {
     gemini: [
         {
             gemini_block: boolean;
-            text: [string];
-            bbox: [number];
+            texts: [string];
+            xyxy: [number];
         }
     ]
 }
@@ -47,7 +47,7 @@ export const Pages: React.FC = () => {
     const [pages, setPages] = useState<Page[]>([]);
     const [folder_images, setFolderImages] = useState<string[]>([]);
     const [annotations, setAnnotations] = useState<Annotation[]>([]);
-
+    const [filterGeminiBlock, setFilterGeminiBlock] = useState(false);
     const [currentPage, setCurrentPage] = useState<Page | null>();
 
     const getAllFileAnnoations = async () => {
@@ -87,22 +87,28 @@ export const Pages: React.FC = () => {
 
     useEffect(() =>{
         if(pages.length > 0)
-            setCurrentPage(pages[0])
+            setCurrentPage(pages[0] || null)
     },[pages])
-
     useEffect(() => {
         if (folder_images.length === 0 || annotations.length === 0) {
             return;
         }
-        const pages: Page[] = [];
+        if (filterGeminiBlock){
+            const filterPages = pages.filter(page => page.annotation.gemini && page.annotation.gemini.some(gemini => gemini.gemini_block));
+            setPages(filterPages);
+            return
+        }
+        let new_pages: Page[] = [];
         for (const image of folder_images) {
             const index = folder_images.indexOf(image);
-            const annotation = annotations[index]; // Make sure annotations is also populated correctly before this step
+            const annotation = annotations[index];
             const page = createPage(image, index, annotation);
-            pages.push(page);
+            new_pages.push(page);
         }
-        setPages(pages);
-    }, [annotations]); 
+        setPages(new_pages)
+
+    }, [annotations, filterGeminiBlock]); 
+
 
     useEffect(() => {
         setCurrentPage(pages[0] || null)
@@ -122,7 +128,11 @@ export const Pages: React.FC = () => {
     return (
         <Container sx={{display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
             <ImageRender currentPage={currentPage || null} />
-            <TranscriptArea pages={pages} currentPage={currentPage || null} setCurrentPage={setCurrentPage || null} />
+            <TranscriptArea pages={pages} 
+            currentPage={currentPage ?? null} 
+            setCurrentPage={setCurrentPage} 
+            filterGeminiBlock={filterGeminiBlock} 
+            setFilterGeminiBlock={setFilterGeminiBlock} />        
         </Container>
     );
 };

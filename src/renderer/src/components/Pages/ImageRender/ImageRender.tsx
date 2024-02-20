@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Stage, Layer, Image, Rect } from 'react-konva';
 import useImage from 'use-image';
 import { Page } from '../Pages';
+import AnnotationRender from './BoundingBox/AnnotationRender';
 
 interface ImageRenderProps {
   currentPage: Page | null;
@@ -28,8 +29,9 @@ const ImageRender: React.FC<ImageRenderProps> = ({ currentPage }) => {
         width={(bbox[2] - bbox[0]) * 0.25}
         height={(bbox[3] - bbox[1]) * 0.25}
         stroke={color}
-        strokeWidth={2}
-        cornerRadius={10} // Rounded corners
+        strokeWidth={1}
+        opacity={0.5}
+        cornerRadius={5} // Rounded corners
         shadowColor="black"
         shadowBlur={10}
         shadowOffset={{ x: 5, y: 5 }}
@@ -39,21 +41,22 @@ const ImageRender: React.FC<ImageRenderProps> = ({ currentPage }) => {
   };
 
   return (
-    <Stage width={image?.width * 0.25} height={image?.height * 0.25} ref={stageRef}>
-      <Layer>
-        <Image
-          image={image}
-          scaleX={0.25}
-          scaleY={0.25}
-        />
-        {currentPage?.annotation.panels.map((panel, index) =>
-          drawAnnotations(index, panel.bbox, colors.panels)
-        )}
-        {currentPage?.annotation.texts.map((text, index) =>
-          drawAnnotations(index, text.bbox, colors.texts)
-        )}
-      </Layer>
-    </Stage>
+    <>
+      {<Stage width={image ? image.width * 0.25 : 2037 * 0.25} height={image ? image.height * 0.25 : 3056 * 0.25} ref={stageRef}>
+        <Layer>
+          {
+            image && <Image
+              image={image}
+              scaleX={0.25}
+              scaleY={0.25}
+            />
+          }
+
+          {currentPage && <AnnotationRender annotation={currentPage.annotation} />}
+        </Layer>
+      </Stage>
+      }
+    </>
   );
 };
 

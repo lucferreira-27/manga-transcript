@@ -84,6 +84,23 @@ const theme = createTheme({
           },
         },
       },
+      MuiSelect: {
+        styleOverrides: {
+          root: {
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: WHITE, // Replace 'desiredColor' with your color code
+              },
+              '&:hover fieldset': {
+                borderColor: WHITE, // Replace 'hoverColor' with your color code for hover state
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: WHITE // Replace 'focusColor' with your color code for focus state
+              },
+            },
+          },
+        },
+      },
     },
   });
 

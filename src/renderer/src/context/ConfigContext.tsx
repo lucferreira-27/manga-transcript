@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 type Config = {
   paths: {
+    basePath: string;
     volumesPath: string;
     annotationsPath: string;
   };
@@ -9,6 +10,7 @@ type Config = {
 
 const defaultConfig: Config = {
   paths: {
+    basePath: "E:\\One Piece Transcription",
     volumesPath: "E:\\One Piece Transcription\\volumes",
     annotationsPath: "E:\\One Piece Transcription\\annotations",
   },

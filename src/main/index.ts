@@ -98,7 +98,33 @@ app.whenReady().then(() => {
     }
   })
 
+  ipcMain.handle('write-to-file', async (event, filePath, content: string) => {
+
+    try {
+      // if filePath not exist create (folders)
+      await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+      await fs.promises.writeFile(filePath, content, { encoding: 'utf8' });
+
+      return true;
+
+    } catch (error) {
+      console.error('Failed to write to file:', error);
+      throw error;
+    }
+  });
+
+  ipcMain.handle('file-exists', async (event, filePath) => {
+    try {
+      const exists = await fs.promises.access(filePath, fs.constants.F_OK);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  });
+
+
   createWindow()
+
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

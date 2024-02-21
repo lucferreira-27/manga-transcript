@@ -4,34 +4,34 @@ import { Volume } from '../Pages';
 
 interface VolumeSelectorProps {
     volumes: Volume[];
-    setPages: React.Dispatch<React.SetStateAction<any[]>>; // Adjust the type based on your actual Page type
-}
+    setCurrentVolume: React.Dispatch<React.SetStateAction<Volume | null>>;
+    currentVolume: Volume | null;
+     // Adjust the type based on your actual Page type
+}   
 
 
 
-const VolumeSelector: React.FC<VolumeSelectorProps> = ({ volumes, setPages }) => {
-    const [selectedVolumeNumber, setSelectedVolumeNumber] = useState<number>(1);
+const VolumeSelector: React.FC<VolumeSelectorProps> = ({ volumes, setCurrentVolume,currentVolume }) => {
 
     return (
-        <FormControl fullWidth sx={{ m: 1, backgroundColor: 'white',}}>
+        <FormControl fullWidth sx={{ mt: 2}}>
             <InputLabel id="volume-select-label">Volume</InputLabel>
             <Select
                 labelId="volume-select-label"
                 id="volume-select"
-                value={selectedVolumeNumber}
+                value={currentVolume?.volume_number || 1}
                 label="Volume"
                 onChange={(event) => {
                     const volumeNumber = event.target.value as number;
-                    setSelectedVolumeNumber(volumeNumber);
                     const selectedVolume = volumes.find(volume => volume.volume_number === volumeNumber);
                     if (selectedVolume) {
-                        setPages(selectedVolume.pages);
+                        setCurrentVolume(selectedVolume)
                     }
                 }}
                 MenuProps={{
                     PaperProps: {
                         style: {
-                            maxHeight: '200px', // Control the max height of the selection area
+                            maxHeight: '150px', // Control the max height of the selection area
                         },
                     },
                 }}

@@ -9,44 +9,44 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const UserConfiguration: React.FC = () => {
   const { config, setConfig } = useConfig();
-  const [imagePath, setImagePath] = useState(config.paths.imagePath);
-  const [annotationPath, setAnnotationPath] = useState(config.paths.annotationPath);
+  const [volumesPath, setVolumesPath] = useState(config.paths.volumesPath);
+  const [annotationsPath, setAnnotationPath] = useState(config.paths.annotationsPath);
   const [open, setOpen] = useState(false);
-  const [imagePathError, setImagePathError] = useState(false);
+  const [volumesPathError, setVolumesPathError] = useState(false);
   const [annotationPathError, setAnnotationPathError] = useState(false);
 
-  const handleImagePathInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImagePath(event.target.value);
+  const handleVolumesPathInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setVolumesPath(event.target.value);
   };
   const handleAnnotationPathInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAnnotationPath(event.target.value);
   };
 
   const handleSubmit = () => {
-    console.log('Image Path:', imagePath);
-    console.log('Annotation Path:', annotationPath);
+    console.log('Volumes Path:', config.paths.volumesPath);
+    console.log('Annotation Path:', config.paths.annotationsPath);
 
-    if (imagePath.length == 0 || annotationPath.length == 0) {
-      setImagePathError(imagePath.length == 0);
-      setAnnotationPathError(annotationPath.length == 0);
+    if (volumesPath.length == 0 || annotationsPath.length == 0) {
+      setVolumesPathError(volumesPath.length == 0);
+      setAnnotationPathError(annotationsPath.length == 0);
       return
     }
-    setConfig({ ...config, paths: { ...config.paths, imagePath, annotationPath } });
+    setConfig({ ...config, paths: { ...config.paths, volumesPath, annotationsPath } });
     setOpen(false);
   };
 
   useEffect(() => {
-    if (imagePath.length > 0) {
-      setImagePathError(false);
+    if (volumesPath.length > 0) {
+      setVolumesPathError(false);
     }
-    if (annotationPath.length > 0) {
+    if (annotationsPath.length > 0) {
       setAnnotationPathError(false);
     }
-  }, [imagePath, annotationPath]);
+  }, [volumesPath, annotationsPath]);
 
   useEffect(() => {
 
-  }, [annotationPathError, imagePathError]);
+  }, [annotationPathError, volumesPathError]);
 
   const toggleAppBar = () => {
     setOpen(!open);
@@ -68,12 +68,12 @@ const UserConfiguration: React.FC = () => {
           <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ margin: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', width: '80%', gap: '15px' }}>
               <TextField
-                error={imagePathError}
-                helperText={imagePathError ? 'This field is required' : ''}
-                label="Image Path"
+                error={volumesPathError}
+                helperText={volumesPathError ? 'This field is required' : ''}
+                label="Volumes Path"
                 variant="outlined"
-                value={imagePath}
-                onChange={handleImagePathInputChange}
+                value={volumesPath}
+                onChange={handleVolumesPathInputChange}
                 size="small"
                 sx={{ backgroundColor: 'white', borderRadius: '5px', width: '80%' }}
               />
@@ -82,7 +82,7 @@ const UserConfiguration: React.FC = () => {
                 helperText={annotationPathError ? 'This field is required' : ''}
                 label="Annotation Path"
                 variant="outlined"
-                value={annotationPath}
+                value={annotationsPath}
                 onChange={handleAnnotationPathInputChange}
                 size="small"
                 sx={{ backgroundColor: 'white', borderRadius: '5px', width: '80%' }}

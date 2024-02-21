@@ -2,15 +2,15 @@ import React, { createContext, useContext, useState } from 'react';
 
 type Config = {
   paths: {
-    imagePath: string;
-    annotationPath: string;
+    volumesPath: string;
+    annotationsPath: string;
   };
 };
 
 const defaultConfig: Config = {
   paths: {
-    imagePath: "E:/Torrent/One Piece v001-100 (2003-2022) (Digital HD) (AnHeroGold-Empire, aKraa, & jxc3764)/Volumes/compress_volumes/One Piece v001 (2003) (Digital HD) (AnHeroGold-Empire)",
-    annotationPath: "E:/One Piece Volumes Predictions",
+    volumesPath: "E:\\One Piece Transcription\\volumes",
+    annotationsPath: "E:\\One Piece Transcription\\annotations",
   },
 };
 

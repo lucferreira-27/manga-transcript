@@ -66,7 +66,6 @@ app.whenReady().then(() => {
     try {
       const content = await readFileAsync(filePath, { encoding: 'utf8' })
       if (json) {
-        console.log("json",content)
         return JSON.parse(content);
       }
       return content

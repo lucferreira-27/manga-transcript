@@ -8,14 +8,15 @@ interface GalleryViewerProps {
 }
 
 export const GalleryViewer: React.FC<GalleryViewerProps> = ({pages }) => {
+  const INDEX_STEP = 3;
+  
     const [selectedPage, setSelectedPage] = useState<Page | null>(null);
     const [showingPages, setShowingPages] = useState<Page[]>(pages);
     const [markedPages, setMarkedPages] = useState<Page[]>([]);
-    const [index, setIndex] = useState<number>(0);
+    const [index, setIndex] = useState<number>(INDEX_STEP);
     const [isLoading, setIsLoading] = useState<boolean>(false); // New loading state
-    const INDEX_STEP = 3;
     useEffect(() => {
-        setIndex(0);
+        setIndex(INDEX_STEP);
         setShowingPages(pages.slice(0, INDEX_STEP));
     }, [pages]);
 
@@ -30,10 +31,9 @@ export const GalleryViewer: React.FC<GalleryViewerProps> = ({pages }) => {
         }
     };
     const handlePrevious = () => {
-        if (index - INDEX_STEP >= 0) {
+        if (index - INDEX_STEP > 0) {
             console.log(index)
             setIndex(index - INDEX_STEP);
-            //setIsLoading(true); // Set loading to true when changing pages
 
         setTimeout(() => setIsLoading(false), 500)
     }
